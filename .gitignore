@@ -57,3 +57,9 @@ runs
 # other
 *.egg-info
 __pycache__
+
+# ignore the changes that we make to isaac gym installation
+isaacgym/
+
+# ignore the changes to the virtual environment
+legged_gym_venv/

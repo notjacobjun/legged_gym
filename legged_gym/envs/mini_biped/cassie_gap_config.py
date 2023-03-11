@@ -30,9 +30,10 @@
 
 from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO
 
-class MiniBipedCfg( LeggedRobotCfg ):
+class CassieGapCfg( LeggedRobotCfg ):
     class env( LeggedRobotCfg.env):
-        num_envs = 4096
+        # num_envs = 4096
+        num_envs = 1
         num_observations = 169
         num_actions = 12
 
@@ -76,8 +77,8 @@ class MiniBipedCfg( LeggedRobotCfg ):
         
     class asset( LeggedRobotCfg.asset ):
         file = '{LEGGED_GYM_ROOT_DIR}/resources/robots/cassie/urdf/cassie.urdf'
-        file = '{LEGGED_GYM_ROOT_DIR}/resources/robots/mini_biped/mjcf/biped_simple_osudrl.xml'
-        name = "mini_biped"
+        # file = '{LEGGED_GYM_ROOT_DIR}/resources/robots/mini_biped/mjcf/biped_simple_osudrl.xml'
+        name = "cassie_gap"
         foot_name = 'toe'
         terminate_after_contacts_on = ['pelvis']
         flip_visual_attachments = False
@@ -102,11 +103,11 @@ class MiniBipedCfg( LeggedRobotCfg ):
             ang_vel_xy = -0.0
             feet_contact_forces = -0.
 
-class MiniBipedCfgPPO( LeggedRobotCfgPPO ):
+class CassieGapCfgPPO( LeggedRobotCfgPPO ):
     
     class runner( LeggedRobotCfgPPO.runner ):
         run_name = ''
-        experiment_name = 'mini_biped'
+        experiment_name = 'cassie_gap'
 
     class algorithm( LeggedRobotCfgPPO.algorithm):
         entropy_coef = 0.01

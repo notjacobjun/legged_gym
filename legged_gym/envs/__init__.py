@@ -38,8 +38,8 @@ from .anymal_b.anymal_b_config import AnymalBRoughCfg, AnymalBRoughCfgPPO
 from .cassie.cassie import Cassie
 from .cassie.cassie_config import CassieRoughCfg, CassieRoughCfgPPO
 from .a1.a1_config import A1RoughCfg, A1RoughCfgPPO
-from .mini_biped.mini_biped import MiniBiped
-from .mini_biped.mini_biped_config import MiniBipedCfg, MiniBipedCfgPPO
+from .mini_biped.cassie_gap import CassieGap
+from .mini_biped.cassie_gap_config import CassieGapCfg, CassieGapCfgPPO
 
 
 import os
@@ -51,4 +51,4 @@ task_registry.register( "anymal_c_flat", Anymal, AnymalCFlatCfg(), AnymalCFlatCf
 task_registry.register( "anymal_b", Anymal, AnymalBRoughCfg(), AnymalBRoughCfgPPO() )
 task_registry.register( "a1", LeggedRobot, A1RoughCfg(), A1RoughCfgPPO() )
 task_registry.register( "cassie", Cassie, CassieRoughCfg(), CassieRoughCfgPPO() )
-task_registry.register( "mini_biped", MiniBiped, MiniBipedCfg(), MiniBipedCfgPPO() )
+task_registry.register( "cassie_gap", CassieGap, CassieGapCfg(), CassieGapCfgPPO() )

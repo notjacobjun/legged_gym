@@ -72,10 +72,14 @@ class LeggedRobotCfg(BaseConfig):
         resampling_time = 10. # time before command are changed[s]
         heading_command = True # if true: compute ang vel command from heading error
         class ranges:
-            lin_vel_x = [-1.0, 1.0] # min max [m/s]
-            lin_vel_y = [-1.0, 1.0]   # min max [m/s]
-            ang_vel_yaw = [-1, 1]    # min max [rad/s]
-            heading = [-3.14, 3.14]
+            # lin_vel_x = [-1.0, 1.0] # min max [m/s]
+            # lin_vel_y = [-1.0, 1.0]   # min max [m/s]
+            # ang_vel_yaw = [-1, 1]    # min max [rad/s]
+            # heading = [-3.14, 3.14]
+            lin_vel_x = [2.5, 2.5] # min max [m/s]
+            lin_vel_y = [0.0, 0.0]   # min max [m/s]
+            ang_vel_yaw = [0, 0]    # min max [rad/s]
+            heading = [0.0, 0.0]
 
     class init_state:
         pos = [0.0, 0.0, 1.] # x,y,z [m]
@@ -119,11 +123,18 @@ class LeggedRobotCfg(BaseConfig):
         thickness = 0.01
 
     class domain_rand:
-        randomize_friction = True
+        # randomize_friction = True
+        # friction_range = [0.5, 1.25]
+        # randomize_base_mass = False
+        # added_mass_range = [-1., 1.]
+        # push_robots = True
+        # push_interval_s = 15
+        # max_push_vel_xy = 1.
+        randomize_friction = False
         friction_range = [0.5, 1.25]
         randomize_base_mass = False
         added_mass_range = [-1., 1.]
-        push_robots = True
+        push_robots = False
         push_interval_s = 15
         max_push_vel_xy = 1.
 
@@ -164,7 +175,9 @@ class LeggedRobotCfg(BaseConfig):
         clip_actions = 100.
 
     class noise:
-        add_noise = True
+        # add_noise = True
+        # noise_level = 1.0 # scales other values
+        add_noise = False
         noise_level = 1.0 # scales other values
         class noise_scales:
             dof_pos = 0.01

@@ -38,8 +38,8 @@ from .anymal_b.anymal_b_config import AnymalBRoughCfg, AnymalBRoughCfgPPO
 from .cassie.cassie import Cassie
 from .cassie.cassie_config import CassieRoughCfg, CassieRoughCfgPPO
 from .a1.a1_config import A1RoughCfg, A1RoughCfgPPO
-from .mini_biped.cassie_gap import CassieGap
-from .mini_biped.cassie_gap_config import CassieGapCfg, CassieGapCfgPPO
+from .cassie_gap.cassie_gap import CassieGap
+from .cassie_gap.cassie_gap_config import CassieGapCfg, CassieGapCfgPPO
 
 
 import os

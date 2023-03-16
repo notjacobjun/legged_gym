@@ -41,6 +41,17 @@ class CassieGapCfg( LeggedRobotCfg ):
     class terrain( LeggedRobotCfg.terrain):
         measured_points_x = [-0.5, -0.4, -0.3, -0.2, -0.1, 0., 0.1, 0.2, 0.3, 0.4, 0.5] # 1mx1m rectangle (without center line)
         measured_points_y = [-0.5, -0.4, -0.3, -0.2, -0.1, 0., 0.1, 0.2, 0.3, 0.4, 0.5]
+        curriculum = False
+        num_rows = 1
+        num_cols = 1
+        # terrain types: [smooth slope, rough slope, stairs up, stairs down, discrete]
+        # terrain_proportions = [0, 0, 0, 0, 1]
+        # trimesh only:
+        # slope_treshold = 1.0
+        # slope_treshold = 5.0 # slopes above 0.75 threshold will be corrected to vertical surfaces
+        # terrain_length = 4.
+        # terrain_width = 4.
+        # horizontal_scale = 2.0
 
     class init_state( LeggedRobotCfg.init_state ):
         # TODO get help for setting up default joint angles for robot
@@ -74,6 +85,10 @@ class CassieGapCfg( LeggedRobotCfg ):
         action_scale = 0.5
         # decimation: Number of control action updates @ sim DT per policy DT
         decimation = 4
+    
+    class domain_rand(LeggedRobotCfg.domain_rand):
+        push_robots = False
+        randomize_friction = False
         
     class asset( LeggedRobotCfg.asset ):
         file = '{LEGGED_GYM_ROOT_DIR}/resources/robots/cassie/urdf/cassie.urdf'
@@ -83,6 +98,12 @@ class CassieGapCfg( LeggedRobotCfg ):
         terminate_after_contacts_on = ['pelvis']
         flip_visual_attachments = False
         self_collisions = 1 # 1 to disable, 0 to enable...bitwise filter
+    
+    # class noise(LeggedRobotCfg.noise):
+    #     add_noise = False
+    class viewer(LeggedRobotCfg.viewer):
+        pos = [23., -3, 2] # [x, y, z] in meters
+        lookat = [23., 23, 2.] # [x, y, z] in meters
   
     class rewards( LeggedRobotCfg.rewards ):
         soft_dof_pos_limit = 0.95
@@ -111,7 +132,4 @@ class CassieGapCfgPPO( LeggedRobotCfgPPO ):
 
     class algorithm( LeggedRobotCfgPPO.algorithm):
         entropy_coef = 0.01
-
-
-
   

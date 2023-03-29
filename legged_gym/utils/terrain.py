@@ -166,7 +166,8 @@ class Terrain:
         self.env_origins[i, j] = [env_origin_x, env_origin_y, env_origin_z]
 
 def gap_terrain(terrain, gap_size, platform_size=1.):
-    gap_size = int(gap_size / terrain.horizontal_scale)
+    # reduced the gap size in half
+    gap_size = int(gap_size / terrain.horizontal_scale) // 2
     platform_size = int(platform_size / terrain.horizontal_scale)
 
     center_x = terrain.length // 2

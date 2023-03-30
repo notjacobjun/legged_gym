@@ -41,7 +41,7 @@ import seaborn as sns
 import matplotlib.pylab as plt
 
 
-def test(args):
+def test(args, curr_velocity):
     env_cfg, train_cfg = task_registry.get_cfgs(name=args.task)
     # override some parameters for testing
     env_cfg.env.num_envs = min(env_cfg.env.num_envs, 50)
@@ -52,17 +52,9 @@ def test(args):
     env_cfg.domain_rand.randomize_friction = False
     env_cfg.domain_rand.push_robots = False
 
-    curr_velocity = 1.50
-    # list to store the velocities and num of gap cross trajectories that we used for
-    # experiments (to plot later on our heatmap)
-    experiments = {} 
-    velocities, x_distances_traveled = [], []
+    # list to store the velocities for our experiments (to plot later on our heatmap)
+    x_distances_traveled = []
 
-    # while curr_velocity <= 2.5:
-    # TODO figure out how to properly reset
-    # env.reset()
-    experiments.update({curr_velocity: 0})
-    velocities.append(curr_velocity)
     # prepare environment
     env_cfg.commands.ranges.lin_vel_x = [curr_velocity, curr_velocity]
     env, _ = task_registry.make_env(name=args.task, args=args, env_cfg=env_cfg)
@@ -107,9 +99,8 @@ def test(args):
             # calculate the distance traveled from the spawn during this episode
             x_distance_from_spawn = (rb_positions[0] - init_position)
             # convert the single element tensor into a scalar
-            x_distance_from_spawn.view(-1)[0].item()
+            x_distance_from_spawn = x_distance_from_spawn.view(-1)[0].item()
             x_distances_traveled.append(x_distance_from_spawn)
-            print(f"x_distance_from_spawn: {x_distance_from_spawn}")
 
             # calculate the average height of the robot throughout the episode
             num_episodes += 1
@@ -121,9 +112,6 @@ def test(args):
         # recalibrate the init_pos to new spawn point after restart
         if reset_flag:
             init_position = env.root_pos[0][0]
-            y_init_position = env.root_pos[0][1]
-            print(f"new initial position: {init_position}")
-
 
         # NOTE that obs[2] gives us out of index bounds so look at docs
         # avg_base_height = obs[2] # TODO perform running average formula
@@ -151,8 +139,6 @@ def test(args):
     # else: 
         # leave it as such
         # continue
-    # increase the current velocity
-    curr_velocity += 0.25
 
     if i < stop_state_log:
         logger.log_states(
@@ -176,7 +162,8 @@ def test(args):
     elif i==stop_rew_log:
         logger.print_rewards()
     
-    print(f"distances_traveled: {x_distances_traveled}")
+    print(f"distances_traveled: {x_distances_traveled} for velocity: {curr_velocity}")
+    return [curr_velocity, x_distances_traveled]
 
 
 if __name__ == '__main__':
@@ -184,19 +171,26 @@ if __name__ == '__main__':
     RECORD_FRAMES = False
     MOVE_CAMERA = False
     args = get_args()
-    test(args)
 
-    # Plot the heatmap for the experiment
-    # curr_velocity = 0.25
-    # velocities = []
-    # num_successes = [0 for _ in range(10)]
-    # num_successes[7] = 1
-    # num_successes[8] = 2
-    # num_successes[9] = 5
-    # while curr_velocity <= 2.5:
-    #     velocities.append(curr_velocity)
-    #     curr_velocity += 0.25
-    # ax = sns.histplot(x=velocities, y=num_successes, bins=10)
-    # plt.xlabel("Velocity")
-    # plt.ylabel("Num successful gap traversals")
-    # plt.show()
+    current_velocity = 0.25
+    distances = {}
+    x_data, y_data = [], []
+    while current_velocity <= 3.0:
+        velocity, distances_traveled = test(args, current_velocity)
+        # store the distances traveled for this velocity setting
+        distances[velocity] = distances_traveled
+        # increase the current velocity
+        current_velocity += 0.25
+
+    # create data for scatter plot
+    for velocity in distances:
+        for i, distance in enumerate(distances[velocity]):
+            x_data.append(float(velocity))
+            y_data.append(distance)
+
+    # create scatter plot using matplotlib
+    plt.scatter(x_data, y_data, s=50)
+    plt.xlabel('Velocity')
+    plt.ylabel('Distance Traveled')
+    plt.title('Distances Traveled at Different Velocities')
+    plt.show()

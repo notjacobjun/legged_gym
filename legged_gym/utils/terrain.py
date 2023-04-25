@@ -117,7 +117,8 @@ class Terrain:
         discrete_obstacles_height = 0.05 + difficulty * 0.2
         stepping_stones_size = 1.5 * (1.05 - difficulty)
         stone_distance = 0.05 if difficulty==0 else 0.1
-        gap_size = 1. * difficulty
+        # gap_size = 1. * difficulty
+        gap_size = 3
         pit_depth = 1. * difficulty
         # if choice < self.proportions[0]:
         #     if choice < self.proportions[0]/ 2:
@@ -167,7 +168,7 @@ class Terrain:
 
 def gap_terrain(terrain, gap_size, platform_size=1.):
     # reduced the gap size in half
-    gap_size = int(gap_size / terrain.horizontal_scale) // 2
+    # gap_size = int(gap_size / terrain.horizontal_scale) // 2
     platform_size = int(platform_size / terrain.horizontal_scale)
 
     center_x = terrain.length // 2
